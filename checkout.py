@@ -2,6 +2,8 @@ import tkinter as tk
 import ttkbootstrap as ttk
 import sqlite3
 
+DATABASE_FILE = "db/products.db"
+
 
 class Checkout:
     def __init__(self):
@@ -30,7 +32,7 @@ class Checkout:
         self.delete_button.pack(side="left", padx=10, pady=10)
 
     def load_items(self):
-        connection = sqlite3.connect("db/inventory.db")
+        connection = sqlite3.connect(DATABASE_FILE)
         cursor = connection.cursor()
         cursor.execute("SELECT id, name, quantity, price FROM items")
         data = cursor.fetchall()
@@ -46,7 +48,7 @@ class Checkout:
             item_id = selected_item[0]
             print(f"Deleting item with ID {item_id}")
             try:
-                connection = sqlite3.connect("db/inventory.db")
+                connection = sqlite3.connect(DATABASE_FILE)
                 cursor = connection.cursor()
                 cursor.execute("DELETE FROM items WHERE id = ?", (item_id,))
                 connection.commit()
